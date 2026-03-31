@@ -40,6 +40,12 @@ public:
     }
 
     size_t size() const { return current_size; }
+    // Iteratory pozwalające na współpracę ze standardową biblioteką
+    T* begin() { return data; }
+    T* end() { return data + current_size; }
+
+    // Zwraca wskaźnik
+    const T* data_ptr() const { return data; }
 };
 
 #endif

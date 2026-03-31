@@ -14,6 +14,8 @@ include_directories(include)
 set(SOURCES
         src/main.cpp
         include/structures/CustomArray.hpp
+        include/utils/FileIO.hpp
+        include/algorithms/BubbleSort.hpp
 )
 add_executable(${PROJECT_NAME} ${SOURCES})
 

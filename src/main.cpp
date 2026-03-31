@@ -1,9 +1,11 @@
 #include <iostream>
 #include <chrono>
-#include "Parameters.h" // Dołączenie biblioteki prowadzącego
+#include <algorithm> // Dla std::sort
+#include "Parameters.h"
 #include "structures/CustomArray.hpp"
+#include "algorithms/BubbleSort.hpp"
+#include "utils/FileIO.hpp"
 
-//funkcja sprawdzająca, czy elementy są uporządkowane rosnąco
 template <typename T>
 bool isSorted(CustomArray<T>& arr) {
     for (size_t i = 1; i < arr.size(); ++i) {
@@ -15,38 +17,48 @@ bool isSorted(CustomArray<T>& arr) {
 }
 
 int main(int argc, char* argv[]) {
-    // Odczyt parametrów z wykorzystaniem udostępnionej biblioteki
+    // 1. Ładowanie parametrów
     Parameters::readParameters(argc, argv);
 
-    // Wymagany tryb pomocy
     if (Parameters::runMode == Parameters::RunModes::help) {
         Parameters::help();
         return 0;
     }
 
-    // podstawowy element badany
-    CustomArray<int> arr;
-    arr.push_back(10);
-    arr.push_back(-5);
-    arr.push_back(42);
-    arr.push_back(0);
+    // 2. Tryb pojedynczego pliku
+    if (Parameters::runMode == Parameters::RunModes::singleFile) {
+        CustomArray<int> arr;
 
-    // Mierzenie czasu w mikrosekundach
-    auto start_time = std::chrono::high_resolution_clock::now();
+        std::cout << "Wczytywanie z pliku: " << Parameters::inputFile << "...\n";
+        if (!FileIO::loadFromFile(Parameters::inputFile, arr)) {
+            return 1;
+        }
 
-    // jakiś algorytm
+        // std::sort demonstracja
+        std::cout << "Rozpoczynam sortowanie babelkowe...\n";
 
-    auto end_time = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+        // 3. Mierzenie czasu w mikrosekundach (tylko algorytm) [cite: 29, 30]
+        auto start_time = std::chrono::high_resolution_clock::now();
 
+        bubbleSort(arr); // Używamy naszego algorytmu
 
-    if (isSorted(arr)) {
-        std::cout << "Tablica posortowana poprawnie.\n";
-    } else {
-        std::cout << "Blad w sortowaniu!\n";
+        auto end_time = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+
+        // 4. Weryfikacja i wyniki
+        if (isSorted(arr)) {
+            std::cout << "Tablica posortowana poprawnie.\n";
+        } else {
+            std::cout << "Blad w sortowaniu!\n";
+        }
+        std::cout << "Czas sortowania: " << duration.count() << " us\n";
+
+        // 5. Zapis wyników (jeśli podano plik wyjściowy)
+        if (!Parameters::outputFile.empty()) {
+            std::cout << "Zapisywanie wynikow do: " << Parameters::outputFile << "...\n";
+            FileIO::saveToFile(Parameters::outputFile, arr);
+        }
     }
-
-    std::cout << "Czas sortowania: " << duration.count() << " us\n";
 
     return 0;
 }
