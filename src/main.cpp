@@ -1,6 +1,6 @@
 #include <iostream>
 #include <chrono>
-#include <algorithm> // Dla std::sort
+#include <algorithm>
 #include "Parameters.h"
 #include "structures/CustomArray.hpp"
 #include "algorithms/BubbleSort.hpp"
@@ -17,8 +17,16 @@ bool isSorted(CustomArray<T>& arr) {
 }
 
 int main(int argc, char* argv[]) {
-    // 1. Ładowanie parametrów
-    Parameters::readParameters(argc, argv);
+
+    //1. ladowanie parametrow
+    if (argc > 1) {
+        Parameters::readParameters(argc - 1, argv + 1);
+    } else {
+        // Zabezpieczenie, gdyby ktoś uruchomił program całkowicie bez argumentów
+        Parameters::readParameters(argc, argv);
+    }
+
+
 
     if (Parameters::runMode == Parameters::RunModes::help) {
         Parameters::help();
