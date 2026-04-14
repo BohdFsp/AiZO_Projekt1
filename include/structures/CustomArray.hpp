@@ -11,22 +11,16 @@ private:
     size_t current_capacity;
 
     void reallocate(size_t new_capacity) {
-        // Ręczne alokowanie pamięci
         T* new_data = new T[new_capacity];
-        for (size_t i = 0; i < current_size; ++i) {
-            new_data[i] = data[i];
-        }
-        delete[] data; // Ręczne zwalnianie
+        for (size_t i = 0; i < current_size; ++i) new_data[i] = data[i];
+        delete[] data;
         data = new_data;
         current_capacity = new_capacity;
     }
 
 public:
     CustomArray() : data(nullptr), current_size(0), current_capacity(0) {}
-
-    ~CustomArray() {
-        delete[] data;
-    }
+    ~CustomArray() { delete[] data; }
 
     void push_back(const T& value) {
         if (current_size == current_capacity) {
@@ -35,17 +29,11 @@ public:
         data[current_size++] = value;
     }
 
-    T& operator[](size_t index) {
-        return data[index];
-    }
-
+    T& operator[](size_t index) { return data[index]; }
     size_t size() const { return current_size; }
-    // Iteratory pozwalające na współpracę ze standardową biblioteką
+
     T* begin() { return data; }
     T* end() { return data + current_size; }
-
-    // Zwraca wskaźnik
     const T* data_ptr() const { return data; }
 };
-
 #endif

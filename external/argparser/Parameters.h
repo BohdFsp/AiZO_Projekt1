@@ -1,6 +1,8 @@
 #ifndef PARAMETERS_H
 #define PARAMETERS_H
 
+#define LIB_VERSION "v.1.1"
+
 #include <string>
 
 namespace Parameters
@@ -18,6 +20,7 @@ namespace Parameters
     cocktail,
     merge,
     insertion,
+    bucket,
     quick,
     shell,
 
@@ -43,6 +46,7 @@ namespace Parameters
     typeDouble,
     typeChar,
     typeString,
+    tyleUnsignedInt,
     typeUnsignedLong,
     typeUnsignedChar,
 
@@ -73,20 +77,20 @@ namespace Parameters
   // Parameters to use.
   //
 
-  RunModes runMode = RunModes::undefined;
-  Algorithms algorithm = Algorithms::undefined;
-  Structures structure = Structures::undefined;
-  DataTypes dataType = DataTypes::undefined;
+  extern RunModes runMode;
+  extern Algorithms algorithm;
+  extern Structures structure;
+  extern DataTypes dataType;
 
-  std::string inputFile = {};
-  std::string outputFile = {};
-  std::string resultsFile = {};
+  extern std::string inputFile;
+  extern std::string outputFile;
+  extern std::string resultsFile;
 
-  int structureSize = -1;
-  int iterations = -1;
+  extern int structureSize;
+  extern int iterations;
 
-  Pivots pivot = Pivots::undefined;
-  ShellParameters shellParameter = ShellParameters::undefined;
+  extern Pivots pivot;
+  extern ShellParameters shellParameter;
 
   //
   // Methods to use.
@@ -99,6 +103,7 @@ namespace Parameters
   void disableDebug();
 
   void help();
+  const char *getVersion();
 };
 
 #endif
