@@ -143,7 +143,7 @@ void runProcess() {
 }
 
 // =========================================================================
-// ROUTER TYPÓW (Obsługa Badania C)
+// ROUTER TYPÓW
 // =========================================================================
 template <template<typename> class ContainerType>
 void routeDataType() {
@@ -173,7 +173,7 @@ int main(int argc, char* argv[]) {
 
     if (Parameters::runMode == Parameters::RunModes::help) { Parameters::help(); return 0; }
 
-    // Wybór struktury (Obsługa 5 struktur na 5.0) AiZO - Projekt1.pdf]
+    // Wybór struktury (Obsługa 5 struktur)
     if (Parameters::structure == Parameters::Structures::array) routeDataType<CustomArray>();
     else if (Parameters::structure == Parameters::Structures::singleList) routeDataType<SinglyLinkedList>();
     else if (Parameters::structure == Parameters::Structures::doubleList) routeDataType<DoublyLinkedList>();
